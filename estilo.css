@@ -1,0 +1,14 @@
+#principal{
+
+	background-color: rgb(10, 10, 10);
+}
+
+#login{
+	background-color: rgb(170, 270, 5);
+	text-align: center;
+	margin-left: 500px;
+	border:1px solid #998999;
+	width: 260px;
+	box-shadow: 10px 10px 5px #888888;
+}
+
