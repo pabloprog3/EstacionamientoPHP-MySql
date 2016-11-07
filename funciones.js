@@ -22,7 +22,7 @@ function ingresar ()
 	 else
 	 {
 	 	var usuario = $('#correo').val();
-	 	var clave = $('#clave').val;
+	 	var clave = $('#clave').val();
 
 	 	validar(usuario, clave);
 
@@ -44,7 +44,7 @@ function validar (usuario, clave)
 {
 
 	var usuario = $('#correo').val();
-	 	var clave = $('#clave').val;
+	 	var clave = $('#clave').val();
 
 	$.ajax({
 		type:"post",

@@ -1,32 +1,29 @@
 <?php
 
+include 'AccesoPDO.php';
+include 'usuarios.php';
+
 $usuario = $_POST['usuario'];
 $clave = $_POST['clave'];
+$encontrado = 'aaa';
 
 //var_dump($_POST);
 
-$conn = mysql_connect('localhost', 'root','');
-$enlace = mysql_select_db('estacionamiento', $conn);
-$sql = "SELECT correo, clave FROM usuarios";
+	$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+	$consulta =$objetoAccesoDato->RetornarConsulta("SELECT id_usuario, correo, clave, perfil FROM usuarios");
+	$consulta->execute();	
 
+ 	$consulta->fetch(PDO::FETCH_ASSOC);
 
-$registros = mysql_query($sql);
+ foreach ($consulta as $i)
+  {
+ 	if ($i['correo'] == $usuario || $i['clave'] == $clave) 
+ 	{
+ 		$encontrado = 'bbb';
+ 		break;
+ 	}
+ }
 
-$encontrado = false;
-
-while ($fila=mysql_fetch_array($registros, MYSQL_BOTH)) 
-{
-	if ($fila['correo'] == $usuario && $fila['clave'] == $clave) 
-	{
-		$encontrado = true;
-		break;
-	}
-}
-
-
-if($encontrado == true)
-{
-	echo "verdadero";
-}
+echo "$encontrado";
 
 ?>

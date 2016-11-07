@@ -35,11 +35,6 @@ class Patente
 		$this->fechaIngreso = $valor;
 	}
 
-	public function SetID($valor)
-	{
-		$this->id = $valor;
-	}
-
 
 
 	public function __construct($numero=NULL)

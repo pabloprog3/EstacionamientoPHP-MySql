@@ -1,8 +1,10 @@
 <?php
 
-
+class AccesoDatos
+{
  private static $ObjetoAccesoDatos;
-    private $objetoPDO;
+ 
+ private $objetoPDO;
  
     private function __construct()
     {
@@ -41,6 +43,6 @@
         trigger_error('La clonación de este objeto no está permitida', E_USER_ERROR); 
     }
 
-
+}
 
 ?>
