@@ -33,6 +33,8 @@ function ingresar ()
 					if (resp == "admin") {
 						$('#login').hide();
 						$('#perfil').load("formIngreso.php");
+
+
 					};
 				}
 		});
@@ -68,15 +70,19 @@ function formEmp ()
 function sacarAuto (idpatente) 
 {
 	var queHago = "sacarAuto";
+	var egreso = Date();
 
 	$.ajax({
 		type:"post",
 		url:"nexo.php",
-		data:{queHacer:queHago, id:idpatente},	
+		data:{queHacer:queHago, id:idpatente, egreso:egreso},	
 		success: function (resp) 
 				{
-					$('#botonSeleccionado').html(resp);
+					document.getElementById('cobro').style.display='block';	
+					$('#cobro').val('Monto a pagar: $' + resp);
+					formAutos();					
 				}
 		});
 
 }
+

@@ -36,61 +36,20 @@ class Patente
 	}
 
 
-
-	public function __construct($numero=NULL)
+	public static function CalcularMonto($fechaDeIngreso)
 	{
-		if($numero != NULL)
-		{
-			$obj = Patente::TraerUnUsuario($numero);
-			$this->pat	ente = $obj->numero;	
-		}		
-	}		
-	
+		$fechaEgreso = time();
+		$fechaDeIngreso = date('d-m-Y y:i:s');
+		$segundos = floor((strtotime($fechaDeIngreso) - strtotime($fechaEgreso)) % 60); //obtiene los segundos
 
-	public static function TraerUnaPatente($id)
-	{
-		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta = $objetoAccesoDato->RetornarConsulta("SELECT id_patente, patente, ingreso FROM autos WHERE id_patente = :numero ");
-		$consulta->bindValue(':numero', $id, PDO::PARAM_INT);
-		$consulta->execute();
-		$patenteBuscado= $consulta->fetchObject('Patente');
-		return $patenteBuscado;				
-	}
+		//return $minutos;
 
-	public static function TraerTodasPatentes($id)
-	{
-		
+		return number_format(abs($cobro = $segundos * 3), 2); //valor del segundo $3
 	}
 
 
-	public function Insertar()
-	{
-		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta = $objetoAccesoDato->RetornarConsulta("INSERT INTO autos (patente, ingreso) values (:patente, :ingreso)");
-		$consulta->bindValue(':patente',$this->patente, PDO::PARAM_STR);
-		$consulta->bindValue(':ingreso', $this->fechaIngreso, PDO::PARAM_STR);
 
-		$consulta->execute();
-	}
 
-	public function Modificar()
-	{
-		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("UPDATE autos SET patente=:patente, ingreso=:ingreso WHERE id_patente=:numero");
-		$consulta->bindValue(':patente',$this->patente, PDO::PARAM_STR);
-		$consulta->bindValue(':ingreso', $this->fechaIngreso, PDO::PARAM_STR);
-		$consulta->bindValue(':numero',$this->id, PDO::PARAM_INT);
-		$consulta->execute();		
-	}
-
-	public static function Borrar($id)
-	{
-		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("DELETE FROM proveedores WHERE id_patente = :numero");	
-		$consulta->bindValue(':numero', $id, PDO::PARAM_INT);		
-		$consulta->execute();
-		return $consulta->rowCount();
-	}
 
 }
 

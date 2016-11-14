@@ -44,27 +44,6 @@ public function SetPerfil($valor)
 }
 
 
-public static function TraerUnUsuario($id)
-{
-	$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-	$consulta = $objetoAccesoDato->RetornarConsulta("SELECT id_patente, correo, clave, perfil FROM usuarios WHERE id_patente = :numero ");
-	$consulta->bindValue(':numero', $id, PDO::PARAM_INT);
-	$consulta->execute();
-	$userBuscado= $consulta->fetchObject('Usuario');
-	return $userBuscado;	
-}
-
-public static function TraerTodosLosUsuarios()
-{
-	$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-	$consulta =$objetoAccesoDato->RetornarConsulta("SELECT id_usuario, correo, clave, perfil FROM usuarios");
-	$consulta->execute();			
- 	return $consulta->fetchAll(PDO::FETCH_CLASS, "Usuario");
-}
-
-
-
-
 }
 
 

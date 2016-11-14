@@ -1,7 +1,7 @@
 <?php
 
 include 'consultas.php';
-include 'usuarios.php';
+//include 'usuarios.php';
 
 $usuario = $_POST["usuario"];
 $clave = $_POST["clave"];

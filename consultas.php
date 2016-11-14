@@ -69,7 +69,7 @@ class Consultas
 		$rows=null;
 		$PDO = new AccesoPDO();
 		$conexion = $PDO->getConexion();
-		$sql = "select patente as PATENTE, ingreso as INGRESO from autos";
+		$sql = "select id_patente as ID, patente as PATENTE, ingreso as INGRESO from autos";
 		$statementPDO = $conexion->prepare($sql);
 		$statementPDO->execute();
 
@@ -84,13 +84,11 @@ class Consultas
 
 	public static function sacarPatente($patente)
 	{
-		$fechaEgreso = time();
-
-		var_dump($fechaEgreso);
+		//$fechaEgreso = time();
 
 		$PDO = new AccesoPDO();
 		$conexion = $PDO->getConexion();
-		$sql = "delete from autos where patente = :patente";
+		$sql = "delete from autos where id_patente = :patente";
 		$statementPDO = $conexion->prepare($sql);
 		$statementPDO->bindParam(":patente", $patente);
 
@@ -102,6 +100,23 @@ class Consultas
 		{
 			$statementPDO->execute();
 		}
+	}
+
+	public static function traerFecha($id)
+	{
+		
+		$PDO = new AccesoPDO();
+		$conexion = $PDO->getConexion();
+		$sql = "select ingreso from autos where id_patente = :idPatente";
+		$resultado;
+
+		$statementPDO = $conexion->prepare($sql);
+		$statementPDO->bindParam(":idPatente", $id);
+
+		$statementPDO->execute();
+
+		return $resultado[] = $statementPDO->fetch();
+
 	}
 
 
