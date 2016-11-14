@@ -6,7 +6,7 @@
 		
 		<p id="mensajeError"></p>
 		<br>
-		<input type="mail" class="form-control" name="correo" id="correo" placeholder="Correo Electrónico">
+		<input type="email" class="form-control" name="correo" id="correo" placeholder="Correo Electrónico">
 		<br>
 		<input type="password" class="form-control" name="clave" id="clave" placeholder="Clave">
 		<br>

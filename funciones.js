@@ -67,6 +67,16 @@ function formEmp ()
 }
 
 
+function ingresarAuto () 
+{
+
+//	location.href = "insertarPatente.html";
+
+	$('#formularioInsertar').load('insertarPatente.html');		
+	$('#ingresarAuto').style.display='block';					
+
+}	
+
 function sacarAuto (idpatente) 
 {
 	var queHago = "sacarAuto";
@@ -80,9 +90,27 @@ function sacarAuto (idpatente)
 				{
 					document.getElementById('cobro').style.display='block';	
 					$('#cobro').val('Monto a pagar: $' + resp);
+					$('#cobro').fadeOut(2500);
 					formAutos();					
 				}
 		});
 
+}
+
+function insertarPatente ()
+{
+	var queHago = "insertarPatente";
+	var patente = $('#patente').val();
+
+	$.ajax({
+		type:"post",
+		url:"nexo.php",
+		data:{queHacer:queHago, patente:patente},	
+		success: function (resp) 
+				{
+					formAutos();
+					$('#ingresarAuto').remove('div');					
+				}
+		});
 }
 

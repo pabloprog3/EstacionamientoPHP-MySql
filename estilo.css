@@ -1,6 +1,7 @@
 #principal{
 
-	/*background-color: rgb(10, 10, 10);*/
+	background-image: url('Estacionamientos.jpg');
+	background-position: center;
 }
 
 #login{
@@ -39,4 +40,11 @@
 	text-align: center;
 	font-size: 30px;
 	display: none;
+}
+
+#alta{
+	background-color: #B40431;
+	text-align: center;
+	color: white;
+	font-style: oblique;
 }

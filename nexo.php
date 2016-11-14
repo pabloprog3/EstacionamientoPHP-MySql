@@ -16,7 +16,8 @@ switch ($queHago)
 
 						<tr>
 							<td style='color:white' id='patenteTH' align='center'>Patente</th>
-							<td style='color:white' id='ingresoTH' align='center'>Hora de Ingreso</th>
+							<td style='color:white' id='ingresoTH' align='center'>Hora de Ingreso</td>
+							<td align='center'><input type='button' class='btn btn-default form-control' id='alta' value='Ingresar Auto' onClick='ingresarAuto()'></td>
 						</tr>";
 
 						foreach ($listaAutos as $auto) 
@@ -51,6 +52,13 @@ switch ($queHago)
 			 break;
 
 
+	case 'insertarPatente':
+				$patente = $_POST['patente'];
+				$fecha = date('d-m-Y y:i:s');
+				echo "$fecha";
+				$retorno = Consultas::insertarPatente($patente, $fecha);
+
+				return $retorno;
 }
 
 
