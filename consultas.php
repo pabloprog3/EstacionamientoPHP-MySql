@@ -71,15 +71,9 @@ class Consultas
 
 
 
-
-
-
-
-
-
-
-	public function insertarPatente($patente, $fechaIngreso)
+	public function insertarPatente($patente)
 	{
+		$fecha = date('d-m-Y H:i:u');
 		$PDO = new AccesoPDO();
 		$conexion = $PDO->getConexion();
 
@@ -87,7 +81,7 @@ class Consultas
 
 		$statementPDO = $conexion->prepare($sql);
 		$statementPDO->bindParam(':patente', $patente);
-		$statementPDO->bindParam(':fecha', $fechaIngreso);
+		$statementPDO->bindParam(':fecha', $fecha);
 
 		if (!$statementPDO) 
 		{

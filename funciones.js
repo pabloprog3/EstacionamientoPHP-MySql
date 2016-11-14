@@ -94,32 +94,25 @@ function ingresarUsuario()
 
 function insertarUsuarios() 
 {
-  //alert("hola");
 
   var queHago = "insertarUsuarios";
-  var correo = $('#correo').val();
+  var correo = $('#correoIngreso').val();
   var password = $('#pass').val();
-  var perfil= $("input[name='perfil']:checked").val(); 
+  var perfil= $("input[name='perfil']:checked").val();
 
-
-  //alert(correo);
+  alert(correo);
+  alert(password);
+  alert(perfil);
 
 	$.ajax({
 		type:"post",
 		url:"nexo.php",
 		data:{queHacer:queHago, correo:correo, password:password, perfil:perfil},	
-		success: function (resp) 
-				{
+		success: function (resp) {
+			formEmp();
+			alert(resp);
+		}					
 
-					//alert(correo);
-					
-					//$('#usuario').remove('div');
-					formEmp();					
-				}
-		// error:function(retorno)
-		// 		{
-		// 			alert(retorno);
-		// 		}
 		});
 }
 
@@ -134,9 +127,6 @@ function sacarUsuario(idusuario)
 		data:{queHacer:queHago, id:idusuario},	
 		success: function (resp) 
 				{
-					//document.getElementById('cobro').style.display='block';	
-					//$('#cobro').val('Monto a pagar: $' + resp);
-					//$('#cobro').fadeOut(2500);
 					formEmp	();					
 				}
 		});
@@ -149,7 +139,7 @@ function ingresarAuto ()
 //	location.href = "insertarPatente.html";
 
 	$('#formularioInsertar').load('insertarPatente.html');		
-	$('#ingresarAuto').style.display='block';					
+	//$('#ingresarAuto').style.display='block';					
 
 }	
 
@@ -166,7 +156,7 @@ function sacarAuto (idpatente)
 				{
 					document.getElementById('cobro').style.display='block';	
 					$('#cobro').val('Monto a pagar: $' + resp);
-					$('#cobro').fadeOut(2500);
+					$('#cobro').fadeOut(4500);
 					formAutos();					
 				}
 		});

@@ -54,9 +54,9 @@ switch ($queHago)
 
 	case 'insertarPatente':
 				$patente = $_POST['patente'];
-				$fecha = date('d-m-Y y:i:s');
+				//$fecha = date('d-m-Y y:i:s');
 				//echo "$fecha";
-				$retorno = Consultas::insertarPatente($patente, $fecha);
+				$retorno = Consultas::insertarPatente($patente);
 
 				return $retorno;
 
@@ -76,8 +76,9 @@ switch ($queHago)
 						{
 							echo "<tr class='success'>";
 							echo "<td align='center'>".$user['correo']."</td>";
-							echo "<td align='center'>".$user['clave']."</td>";
+							echo "<td align='center'>".$user['perfil']."</td>";
 							echo "<td><input type='button' value='BORRAR' onClick='sacarUsuario(".$user['id_usuario'].")' class='btn btn-success'></td>";
+							echo "<td><input type='button' value='MODIFICAR' onClick='sacarUsuario(".$user['id_usuario'].")' class='btn btn-warning'></td>";
 							echo "</tr>";							
 						
 						}
@@ -86,21 +87,19 @@ switch ($queHago)
 			break;
 
 	case 'insertarUsuarios':
+				//var_dump($_POST);
 				$correo=$_POST['correo'];
-				$clave=$_POST['clave'];
+				$clave=$_POST['password'];
 				$perfil=$_POST['perfil'];
 
-				 Consultas::insertarUsuarios($correo, $clave, $perfil);
-
-				echo "$retorno";
-
+			    Consultas::insertarUsuarios($correo, $clave, $perfil);
 
 		break;
 
 	
 	case 'sacarUsuario':
 			$id=$_POST['id'];
-			Consultas::sacarUsuario($patente);
+			Consultas::sacarUsuario($id);
 
 		break;
 
