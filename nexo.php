@@ -55,10 +55,50 @@ switch ($queHago)
 	case 'insertarPatente':
 				$patente = $_POST['patente'];
 				$fecha = date('d-m-Y y:i:s');
-				echo "$fecha";
+				//echo "$fecha";
 				$retorno = Consultas::insertarPatente($patente, $fecha);
 
 				return $retorno;
+
+
+	case 'usuarios':
+			$listaUsuarios = Consultas::cargarUsuarios();
+
+					echo "<table class='table table-hover' align='center'>
+
+						<tr>
+							<td style='color:white' id='patenteTH' align='center'>Correo</th>
+							<td style='color:white' id='ingresoTH' align='center'>Perfil</td>
+							<td align='center'><input type='button' class='btn btn-default form-control' id='alta' value='Ingresar Usuario' onClick='ingresarUsuario()'></td>
+						</tr>";
+
+						foreach ($listaUsuarios as $user) 
+						{
+							echo "<tr class='success'>";
+							echo "<td align='center'>".$user['correo']."</td>";
+							echo "<td align='center'>".$user['clave']."</td>";
+							echo "<td><input type='button' value='BORRAR' onClick='sacarAuto(".$user['id_usuario'].")' class='btn btn-success'></td>";
+							echo "</tr>";							
+						
+						}
+
+					"</table>";
+			break;
+
+	case 'insertarUsuarios':
+				$correo=$_POST['correo'];
+				$clave=$_POST['clave'];
+				$perfil=$_POST['perfil'];
+
+				$retorno = Consultas::insertarUsuarios($correo, $clave, $perfil);
+
+				return $retorno;
+
+
+		break;
+
+
+
 }
 
 

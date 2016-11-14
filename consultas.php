@@ -12,7 +12,7 @@ class Consultas
 
 		$objPDO = new AccesoPDO();
  		$conexion = $objPDO->getConexion();
- 		$sql = "select correo, clave, perfil from usuarios";
+ 		$sql = "select * from usuarios";
 
  		$statementPDO = $conexion->prepare($sql);
  		$statementPDO->execute();
@@ -26,6 +26,29 @@ class Consultas
 	}
 
 
+	public static function insertarUsuarios($correo, $clave, $perfil)
+	{	
+		$PDO = new AccesoPDO();
+		$conexion = $PDO->getConexion();
+
+		$sql = "insert into usuarios (correo, clave, perfil) values (:unCorreo, :unaClave, :unPerfil)";
+
+		$statementPDO = $conexion->prepare($sql);
+		$statementPDO->bindParam(':unCorreo', $correo);
+		$statementPDO->bindParam(':unaClave', $clave);
+		$statementPDO->bindParam(':unPerfil', $perfil);
+
+		if (!$statementPDO) 
+		{
+			return "Error al crear el registro";	
+		}
+		else
+		{
+			$statementPDO->execute();
+			return "Registro creado con exito";
+		}
+
+	}
 
 
 
@@ -48,7 +71,7 @@ class Consultas
 
 		$statementPDO = $conexion->prepare($sql);
 		$statementPDO->bindParam(':patente', $patente);
-		$statementPDO->bindParam('fecha', $fechaIngreso);
+		$statementPDO->bindParam(':fecha', $fechaIngreso);
 
 		if (!$statementPDO) 
 		{

@@ -1,12 +1,12 @@
 
 <form method="post">
 
-	<div class="form-group"  style="width:250px" >
+	<div class="form-group"  style="width:250px">
 		<h2>ESTACIONAMIENTO UTN-FRA</h2>
 		
 		<p id="mensajeError"></p>
 		<br>
-		<input type="email" class="form-control" name="correo" id="correo" placeholder="Correo Electrónico">
+		<input type="text" class="form-control" name="correo" id="correo" placeholder="Correo Electrónico">
 		<br>
 		<input type="password" class="form-control" name="clave" id="clave" placeholder="Clave">
 		<br>

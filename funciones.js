@@ -15,8 +15,9 @@ function CargarAdmin () {
 	$('#mensajeError').html("");
 }
 
-function ingresar () 
+function ingresar() 
 {
+
 	if ( $('#correo').val() == "" || $('#clave').val() == "" ) 
 	 	$('#mensajeError').html('Falta completar 1 o más dato para ingresar al Sistema');
 	 else
@@ -30,10 +31,11 @@ function ingresar ()
 		data:{usuario:usuario, clave:clave},	
 		success: function (resp) 
 				{
+					//alert(resp);
+
 					if (resp == "admin") {
 						$('#login').hide();
 						$('#perfil').load("formIngreso.php");
-
 
 					};
 				}
@@ -48,6 +50,8 @@ function formAutos()
 {
 	var queHago = "autos";
 
+	$('#usuario').remove('div');
+	
 	$.ajax({
 		type:"post",
 		url:"nexo.php",
@@ -63,7 +67,58 @@ function formAutos()
 
 function formEmp () 
 {
-	// body...
+	var queHago = "usuarios";
+
+	$('#ingresarAuto').remove('div');
+
+
+	$.ajax({
+		type:"post",
+		url:"nexo.php",
+		data:{queHacer:queHago},	
+		success: function (resp) 
+				{
+					$('#botonSeleccionado').html(resp);
+				}
+		});
+}
+
+
+
+function ingresarUsuario()
+{
+	$('#formularioInsertar').load('insertarUsuarios.html');		
+	//$('#usuario').style.display='block';	
+
+}
+
+function insertarUsuarios() 
+{
+  alert("hola");
+
+  var queHago = "insertarUsuarios";
+  var correo = $('#correo').val();
+  var password = $('#pass').val();
+  var perfil= $("input[name='perfil']:checked").val(); 
+
+
+  alert(perfil);
+
+	$.ajax({
+		type:"post",
+		url:"nexo.php",
+		data:{queHacer:queHago, correo:correo, password:password, perfil:perfil},	
+		success: function (resp) 
+				{
+					//alert(correo);
+					formEmp();
+					//$('#usuario').remove('div');					
+				}
+		// error:function(retorno)
+		// 		{
+		// 			alert(retorno);
+		// 		}
+		});
 }
 
 

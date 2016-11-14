@@ -3,6 +3,8 @@
 include 'consultas.php';
 //include 'usuarios.php';
 
+//var_dump($_POST);	
+
 $usuario = $_POST["usuario"];
 $clave = $_POST["clave"];
 $encontrado = 0;
