@@ -102,7 +102,7 @@ function insertarUsuarios()
   var perfil= $("input[name='perfil']:checked").val(); 
 
 
-  alert(correo);
+  //alert(correo);
 
 	$.ajax({
 		type:"post",
@@ -110,9 +110,11 @@ function insertarUsuarios()
 		data:{queHacer:queHago, correo:correo, password:password, perfil:perfil},	
 		success: function (resp) 
 				{
+
 					//alert(correo);
-					formEmp();
-					//$('#usuario').remove('div');					
+					
+					//$('#usuario').remove('div');
+					formEmp();					
 				}
 		// error:function(retorno)
 		// 		{

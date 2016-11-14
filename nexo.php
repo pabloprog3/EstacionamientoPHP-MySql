@@ -90,9 +90,9 @@ switch ($queHago)
 				$clave=$_POST['clave'];
 				$perfil=$_POST['perfil'];
 
-				$retorno = Consultas::insertarUsuarios($correo, $clave, $perfil);
+				 Consultas::insertarUsuarios($correo, $clave, $perfil);
 
-				return $retorno;
+				echo "$retorno";
 
 
 		break;
