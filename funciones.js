@@ -24,41 +24,59 @@ function ingresar ()
 	 	var usuario = $('#correo').val();
 	 	var clave = $('#clave').val();
 
-	 	validar(usuario, clave);
+	 	$.ajax({
+		type:"post",
+		url:"validarUsuario.php",
+		data:{usuario:usuario, clave:clave},	
+		success: function (resp) 
+				{
+					if (resp == "admin") {
+						$('#login').hide();
+						$('#perfil').load("formIngreso.php");
+					};
+				}
+		});
 
-	 	// if(validar(usuario, clave))
-	 	// 	 	$.ajax({
-	 	// 				async:true,
-	 	// 				type:'post',
-	 	// 				url:'nexo.php',
-	 	// 				timeout:10000,
-	 	// 				data:{usuario:usuario, clave:clave}
-
-	 	// 		});
 	 }
 	 
 }
 
 
-function validar (usuario, clave)
+function formAutos()
 {
-
-	var usuario = $('#correo').val();
-	 	var clave = $('#clave').val();
+	var queHago = "autos";
 
 	$.ajax({
 		type:"post",
-		url:"validarUsuario.php",
-		data:{usuario:usuario, clave:clave},	
-		success: function (resp) {
-					alert(resp);
+		url:"nexo.php",
+		data:{queHacer:queHago},	
+		success: function (resp) 
+				{
+					$('#botonSeleccionado').html(resp);
 				}
 		});
 
-	// }).success(function (datos)
-	// 		{ 
-	// 			//$('#mensajeError').html(datos.responseText);
-	// 			alert(datos.responseText);
-	// 		});
-		
+}
+
+
+function formEmp () 
+{
+	// body...
+}
+
+
+function sacarAuto (idpatente) 
+{
+	var queHago = "sacarAuto";
+
+	$.ajax({
+		type:"post",
+		url:"nexo.php",
+		data:{queHacer:queHago, id:idpatente},	
+		success: function (resp) 
+				{
+					$('#botonSeleccionado').html(resp);
+				}
+		});
+
 }

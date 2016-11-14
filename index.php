@@ -1,12 +1,7 @@
+<!DOCTYPE HTML>
 
-
-<!DOCTYPE html>
 <head>
-
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-
-	<script type="text/javascript" src="funciones.js"></script>
+	<meta charset="UTF-8">
 
 
 	<!-- Latest compiled and minified CSS -->
@@ -14,17 +9,28 @@
 
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+	<script type="text/javascript" src="funciones.js"></script>
+	
 
 	<link rel="stylesheet" type="text/css" href="estilo.css">
 
 
 
-	<title></title>
+	<title>
+		Estacionamiento 2016
+	</title>
 </head>
 <body id='principal'>
 
-	<div id='login' >
+	<div id='login' style="width:300px">
 		<?php include 'login.php' ?>
+
+	</div>
+
+	<div id='perfil'>
 
 	</div>
 

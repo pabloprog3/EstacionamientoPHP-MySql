@@ -2,7 +2,7 @@
 <form method="post">
 
 	<div class="form-group"  style="width:250px" >
-		<h2>Ingrese sus datos</h2>
+		<h2>ESTACIONAMIENTO UTN-FRA</h2>
 		
 		<p id="mensajeError"></p>
 		<br>

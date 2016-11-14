@@ -1,6 +1,6 @@
 #principal{
 
-	background-color: rgb(10, 10, 10);
+	/*background-color: rgb(10, 10, 10);*/
 }
 
 #login{
@@ -16,3 +16,18 @@
 	background-color: rgb(10, 230,  90);
 }
 
+#patenteTH{
+
+	font-size: 20px;
+	font-style: oblique;
+	background-color: rgb(20, 100, 300);
+	box-shadow: 20px 5px  50px;
+
+}
+
+#ingresoTH{
+	font-size: 20px;
+	font-style: oblique;
+	background-color: rgb(20, 100, 300);
+	box-shadow: 20px 5px  50px;
+}

@@ -1,29 +1,32 @@
 <?php
 
-include 'AccesoPDO.php';
+include 'consultas.php';
 include 'usuarios.php';
 
-$usuario = $_POST['usuario'];
-$clave = $_POST['clave'];
-$encontrado = 'aaa';
+$usuario = $_POST["usuario"];
+$clave = $_POST["clave"];
+$encontrado = 0;
+$perfil ="";
 
-//var_dump($_POST);
+ $consulta = Consultas::cargarUsuarios();
 
-	$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-	$consulta =$objetoAccesoDato->RetornarConsulta("SELECT id_usuario, correo, clave, perfil FROM usuarios");
-	$consulta->execute();	
-
- 	$consulta->fetch(PDO::FETCH_ASSOC);
 
  foreach ($consulta as $i)
   {
- 	if ($i['correo'] == $usuario || $i['clave'] == $clave) 
+ 	if ($i["correo"] == $usuario || $i["clave"] == $clave) 
  	{
- 		$encontrado = 'bbb';
+ 		$encontrado = 1;
+ 		$perfil=$i["perfil"];
  		break;
  	}
  }
 
-echo "$encontrado";
+
+
+ if ($encontrado == 1) 
+ 	echo  "$perfil";
+ else
+ 	echo "Usuario no encontrado";
+
 
 ?>
