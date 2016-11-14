@@ -94,7 +94,7 @@ function ingresarUsuario()
 
 function insertarUsuarios() 
 {
-  alert("hola");
+  //alert("hola");
 
   var queHago = "insertarUsuarios";
   var correo = $('#correo').val();
@@ -102,7 +102,7 @@ function insertarUsuarios()
   var perfil= $("input[name='perfil']:checked").val(); 
 
 
-  alert(perfil);
+  alert(correo);
 
 	$.ajax({
 		type:"post",
@@ -121,6 +121,25 @@ function insertarUsuarios()
 		});
 }
 
+
+function sacarUsuario(idusuario)
+{
+	var queHago = "sacarUsuario";
+
+	$.ajax({
+		type:"post",
+		url:"nexo.php",
+		data:{queHacer:queHago, id:idusuario},	
+		success: function (resp) 
+				{
+					//document.getElementById('cobro').style.display='block';	
+					//$('#cobro').val('Monto a pagar: $' + resp);
+					//$('#cobro').fadeOut(2500);
+					formEmp	();					
+				}
+		});
+
+}
 
 function ingresarAuto () 
 {

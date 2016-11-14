@@ -50,7 +50,23 @@ class Consultas
 
 	}
 
+	public static function sacarUsuario($id)
+	{
+		$PDO = new AccesoPDO();
+		$conexion = $PDO->getConexion();
+		$sql = "delete from usuarios where id_usuario = :id";
+		$statementPDO = $conexion->prepare($sql);
+		$statementPDO->bindParam(":id", $id);
 
+		if (!$statementPDO) 
+		{
+			return "Se produjo un error al sacar la Patente. Avise a su Administrador";
+		}
+		else
+		{
+			$statementPDO->execute();
+		}
+	}
 
 
 

@@ -77,7 +77,7 @@ switch ($queHago)
 							echo "<tr class='success'>";
 							echo "<td align='center'>".$user['correo']."</td>";
 							echo "<td align='center'>".$user['clave']."</td>";
-							echo "<td><input type='button' value='BORRAR' onClick='sacarAuto(".$user['id_usuario'].")' class='btn btn-success'></td>";
+							echo "<td><input type='button' value='BORRAR' onClick='sacarUsuario(".$user['id_usuario'].")' class='btn btn-success'></td>";
 							echo "</tr>";							
 						
 						}
@@ -94,6 +94,13 @@ switch ($queHago)
 
 				return $retorno;
 
+
+		break;
+
+	
+	case 'sacarUsuario':
+			$id=$_POST['id'];
+			Consultas::sacarUsuario($patente);
 
 		break;
 
