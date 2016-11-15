@@ -50,6 +50,58 @@ class Consultas
 
 	}
 
+	public static function traerUsuario($id)
+	{
+		$rows = null;
+
+		$PDO = new AccesoPDO();
+		$conexion = $PDO->getConexion();
+
+		$sql = "select * from usuarios where id_usuario = :id";
+	
+		$statementPDO = $conexion->prepare($sql);
+
+		$statementPDO->bindParam(':id', $id);
+
+		$statementPDO->execute();
+
+ 		while ($resultado = $statementPDO->fetch()) 
+ 		{
+ 			$rows[]= $resultado;
+ 		} 
+
+ 		return $rows;
+		
+	}
+
+
+	public static function modificarUsuario($idusuario, $correo, $clave, $perfil)
+	{	
+		$PDO = new AccesoPDO();
+		$conexion = $PDO->getConexion();
+
+		$sql = "update usuarios set correo=:correo, clave=:clave, perfil=:perfil where id_usuario=:id";
+
+		$statementPDO = $conexion->prepare($sql);
+		$statementPDO->bindParam(':correo', $correo);
+		$statementPDO->bindParam(':clave', $clave);
+		$statementPDO->bindParam(':perfil', $perfil);
+		$statementPDO->bindParam(':id', $idusuario);
+
+		if (!$statementPDO) 
+		{
+			return "Error al modificar el registro";	
+		}
+		else
+		{
+			$statementPDO->execute();
+			return "Registro modificado con exito";
+		}
+
+	}
+
+
+
 	public static function sacarUsuario($id)
 	{
 		$PDO = new AccesoPDO();

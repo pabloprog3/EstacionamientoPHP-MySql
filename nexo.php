@@ -3,6 +3,14 @@
 include 'consultas.php';
 include 'patentes.php';
 
+	// $perfil = $_POST['perfil'];
+
+	// 			if(!isset($_COOKIE['perfil']))
+	// 			{
+	//  					 setcookie('perfil', $perfil);					
+
+	// 			}
+
 
 $queHago=$_POST['queHacer'];
 
@@ -78,7 +86,7 @@ switch ($queHago)
 							echo "<td align='center'>".$user['correo']."</td>";
 							echo "<td align='center'>".$user['perfil']."</td>";
 							echo "<td><input type='button' value='BORRAR' onClick='sacarUsuario(".$user['id_usuario'].")' class='btn btn-success'></td>";
-							echo "<td><input type='button' value='MODIFICAR' onClick='sacarUsuario(".$user['id_usuario'].")' class='btn btn-warning'></td>";
+							echo "<td><input type='button' value='MODIFICAR' onClick='modificarUsuario(".$user['id_usuario'].")' class='btn btn-warning'></td>";
 							echo "</tr>";							
 						
 						}
@@ -92,6 +100,7 @@ switch ($queHago)
 				$clave=$_POST['password'];
 				$perfil=$_POST['perfil'];
 
+
 			    Consultas::insertarUsuarios($correo, $clave, $perfil);
 
 		break;
@@ -102,6 +111,24 @@ switch ($queHago)
 			Consultas::sacarUsuario($id);
 
 		break;
+
+
+	case 'modificar':
+				$id=$_POST['id'];
+				$dato = Consultas::traerUsuario($id);
+				//var_dump($dato);
+				$objJson=json_encode($dato);
+
+				echo $objJson;
+
+		break;
+
+		case 'modificarBD':
+				
+				$id=$_POST['id'];
+				Consultas::modificarUsuario();
+
+			break;
 
 
 

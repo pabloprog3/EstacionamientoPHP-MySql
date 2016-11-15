@@ -5,10 +5,14 @@ include 'consultas.php';
 
 //var_dump($_POST);	
 
+
+
 $usuario = $_POST["usuario"];
 $clave = $_POST["clave"];
 $encontrado = 0;
 $perfil ="";
+
+
 
  $consulta = Consultas::cargarUsuarios();
 

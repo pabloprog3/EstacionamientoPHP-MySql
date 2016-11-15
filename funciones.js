@@ -33,9 +33,16 @@ function ingresar()
 				{
 					//alert(resp);
 
-					if (resp == "admin") {
+					if (resp == "admin") 
+					{
 						$('#login').hide();
 						$('#perfil').load("formIngreso.php");
+
+					}
+					else{
+						$('#login').hide();
+						$('#perfil').load("formIngreso.php");
+						$('#btnEmp').prop("disabled", true);
 
 					};
 				}
@@ -100,17 +107,12 @@ function insertarUsuarios()
   var password = $('#pass').val();
   var perfil= $("input[name='perfil']:checked").val();
 
-  alert(correo);
-  alert(password);
-  alert(perfil);
-
 	$.ajax({
 		type:"post",
 		url:"nexo.php",
 		data:{queHacer:queHago, correo:correo, password:password, perfil:perfil},	
 		success: function (resp) {
 			formEmp();
-			alert(resp);
 		}					
 
 		});
@@ -126,20 +128,84 @@ function sacarUsuario(idusuario)
 		url:"nexo.php",
 		data:{queHacer:queHago, id:idusuario},	
 		success: function (resp) 
-				{
-					formEmp	();					
+				{	
+					$('#usuario').remove('div');				
+					formEmp	();
+					//$('#usuario').style.display='none';					
 				}
 		});
 
 }
 
+
+function modificarUsuario(usuario)
+{
+	var queHago = "modificar";
+
+	$.ajax({
+		type:"post",
+		url:"nexo.php",
+		data:{queHacer:queHago, id:usuario},
+		dataType: "json",
+		beforeSend: function () {
+			$('#formularioInsertar').load('insertarUsuarios.html');
+		},	
+		success: function (data) 
+				{	
+					//console.log(data);
+					 $('#correoIngreso').val(data[0].correo);
+					 $('#pass').val(data[0].clave);
+
+					 
+					 
+					 modificarBD(usuario);
+
+					 //$("input[name='perfil']:checked") = data[0].perfil;
+					 // var perfil = data[0].perfil;
+					 // document.getElementById(perfil).checked = true;
+
+					 //.val(data[0].perfil);
+					// $('#pass').val(usuario.clave);
+					// $("input[name='perfil']:checked").val(usuario.perfil);				
+				},
+
+			error: function (mensaje) {
+				console.info(mensaje);
+			}
+		});
+}
+
+function modificarBD(id)
+{
+	var queHago = "modificarBD";
+
+	$.ajax({
+		type:"post",
+		url:"nexo.php",
+		data:{queHacer:queHago, id:id},
+
+		success: function (data) 
+				{	
+					formEmp();		
+				},
+
+			error: function (mensaje) {
+				console.info(mensaje);
+			}
+		});
+
+}
+
+
+
+
 function ingresarAuto () 
 {
 
 //	location.href = "insertarPatente.html";
-
+	$('#usuario').remove('div');	
 	$('#formularioInsertar').load('insertarPatente.html');		
-	//$('#ingresarAuto').style.display='block';					
+					
 
 }	
 
