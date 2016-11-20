@@ -75,7 +75,7 @@ class Consultas
 	}
 
 
-	public static function modificarUsuario($idusuario, $correo, $clave, $perfil)
+	public static function modificarUsuario($id, $usuario, $correo, $clave, $perfil)
 	{	
 		$PDO = new AccesoPDO();
 		$conexion = $PDO->getConexion();
@@ -212,24 +212,29 @@ class Consultas
 	}
 
 
-	public static function traerPatente($patente)
+	public static function verificarPatente($patente)
 	{
+		$patente = strtoupper("$patente");
+		$retorno;
+
 		$PDO = new AccesoPDO();
 		$conexion = $PDO->getConexion();
-		$sql = "select patente from autos where id_patente = :idPatente";
+		$sql = "select * from autos where patente = :Patente";
 
 		$statementPDO = $conexion->prepare($sql);
-		$statementPDO->bindParam(":idPatente", $patente);
+		$statementPDO->bindParam(":Patente", $patente);
 		$statementPDO->execute();
 
-		 $resultado = $statementPDO->fetch();
+		 $resultado[] = $statementPDO->fetch();
 
 		 if(count($resultado) >= 1)
 		{
-			return 1;
+			$retorno=-1;
 		}
 		else
-			return -1;
+			$retorno=1;
+
+		return $retorno;
 	}
 
 

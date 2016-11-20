@@ -19,8 +19,9 @@ $perfil ="";
 
  foreach ($consulta as $i)
   {
- 	if ($i["correo"] == $usuario || $i["clave"] == $clave) 
+ 	if ($i["correo"] == $usuario && $i["clave"] == $clave) 
  	{
+ 		setcookie('perfil', $i['perfil'], time() + 3600);
  		$encontrado = 1;
  		$perfil=$i["perfil"];
  		break;
@@ -30,7 +31,10 @@ $perfil ="";
 
 
  if ($encontrado == 1) 
+ {
+ 	//var_dump($perfil);
  	echo  "$perfil";
+ }
  else
  	echo "Usuario no encontrado";
 

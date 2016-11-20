@@ -26,7 +26,7 @@ switch ($queHago)
 					else
 					{
 
-						echo "<div class='table-responsive'>
+						echo "<div class='table table-responsive'>
 						<table class='table table-striped table-bordered' align='center'>';
 
 							<tr>
@@ -77,12 +77,12 @@ switch ($queHago)
 	case 'insertarPatente':
 				$patente = $_POST['patente'];
 
-				if(Consultas::traerPatente($patente) == -1)
+				if(Consultas::verificarPatente($patente) == 1)
 				{
-					Consultas::insertarPatente($patente);
+					return -1;
 				}
 				else{
-						return -1;
+						Consultas::insertarPatente($patente);
 					}
 
 				//return $retorno;
@@ -91,7 +91,7 @@ switch ($queHago)
 	case 'usuarios':
 			$listaUsuarios = Consultas::cargarUsuarios();
 
-					echo "<table class='table table-hover' align='center'>
+					echo "<table class='table table-responsive' align='center'>
 
 						<tr>
 							<td style='color:white' id='patenteTH' align='center'>Correo</th>
@@ -145,7 +145,11 @@ switch ($queHago)
 		case 'modificarBD':
 				
 				$id=$_POST['id'];
-				Consultas::modificarUsuario();
+				$correo=$_POST['correo'];
+				$clave=$_POST['clave'];
+				$perfil=$_POST['perfil'];
+
+				Consultas::modificarUsuario($id, $correo, $clave, $perfil);
 
 			break;
 

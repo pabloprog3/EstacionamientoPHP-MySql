@@ -1,4 +1,4 @@
-<form methos="post">
+<!-- <form methos="post">
 
 <div class="form-group"  style="width:250px" >
 		<h2>Ingrese Patente</h2>
@@ -11,4 +11,4 @@
 
 </form>
 
-</form>
+</form> -->
