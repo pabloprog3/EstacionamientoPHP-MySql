@@ -17,28 +17,38 @@ $queHago=$_POST['queHacer'];
 switch ($queHago) 
 {
 	case 'autos':
-					//$listaAutos = array();
 					$listaAutos = Consultas::cargarPatentes();
+					if ($listaAutos == -1) 
+					{
+						echo "<p class='claseP'>No hay ninguna patente registrada en el Sistema</p><br>
+						<input type='button' class='btn btn-primary' value='Ingresar Patente' align='center' onClick='ingresarAuto()'>";
+					}
+					else
+					{
 
-					echo "<table class='table table-hover' align='center'>
+						echo "<div class='table-responsive'>
+						<table class='table table-striped table-bordered' align='center'>';
 
-						<tr>
-							<td style='color:white' id='patenteTH' align='center'>Patente</th>
-							<td style='color:white' id='ingresoTH' align='center'>Hora de Ingreso</td>
-							<td align='center'><input type='button' class='btn btn-default form-control' id='alta' value='Ingresar Auto' onClick='ingresarAuto()'></td>
-						</tr>";
+							<tr>
+								<td style='color:white' id='patenteTH' align='center'>Patente</th>
+								<td style='color:white' id='ingresoTH' align='center'>Hora de Ingreso</td>
+								<td align='center'><input type='button' class='btn btn-default form-control' id='alta' value='Ingresar Auto' onClick='ingresarAuto()'></td>
+							</tr>";
 
-						foreach ($listaAutos as $auto) 
-						{
-							echo "<tr class='success'>";
-							echo "<td align='center'>".$auto['PATENTE']."</td>";
-							echo "<td align='center'>".$auto['INGRESO']."</td>";
-							echo "<td><input type='button' value='SACAR' onClick='sacarAuto(".$auto['ID'].")' class='btn btn-success'></td>";
-							echo "</tr>";							
+							foreach ($listaAutos as $auto) 
+							{
+								echo "<tr class='success'>";
+								echo "<td align='center'>".$auto['PATENTE']."</td>";
+								echo "<td align='center'>".$auto['INGRESO']."</td>";
+								echo "<td><input type='button' value='SACAR' onClick='sacarAuto(".$auto['ID'].")' class='btn btn-success'></td>";
+								echo "</tr>";							
 						
-						}
+							}
 
-					"</table>";
+						"</table>";
+						
+						echo "</div>";
+				}
 
 					break;
 
@@ -50,23 +60,32 @@ switch ($queHago)
 
 			// var_dump($fechaIngreso);
 
+			 if (Patente::CalcularMonto($fechaIngreso) == -1)
+			 {
+			 	echo "No ha pasado más de un minuto desde que ingreso el auto";
+			 }
+			 else
+			{
 			 $costo=Patente::CalcularMonto($fechaIngreso);
-
 			 Consultas::sacarPatente($patente);
-			 
-			  
-			  echo "$costo";
+			 echo "$costo";
+			}
 
 			 break;
 
 
 	case 'insertarPatente':
 				$patente = $_POST['patente'];
-				//$fecha = date('d-m-Y y:i:s');
-				//echo "$fecha";
-				$retorno = Consultas::insertarPatente($patente);
 
-				return $retorno;
+				if(Consultas::traerPatente($patente) == -1)
+				{
+					Consultas::insertarPatente($patente);
+				}
+				else{
+						return -1;
+					}
+
+				//return $retorno;
 
 
 	case 'usuarios':

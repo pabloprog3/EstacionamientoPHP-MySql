@@ -3,6 +3,8 @@
 class Patente
 {
 	
+	//date_default_timezone_set('America/Argentina');
+
 	public $patente;
 	public $fechaIngreso;
 	public $id;
@@ -38,19 +40,34 @@ class Patente
 
 	public static function CalcularMonto($fechaDeIngreso)
 	{
-		$fechaEgreso = time();
-		$fechaDeIngreso = date('d-m-Y y:i:s');
-		$segundos = floor((strtotime($fechaDeIngreso) - strtotime($fechaEgreso)) % 60); //obtiene los segundos
+		$fechaEgreso = date('Y/m/d H:i:s');
 
-		//return $minutos;
+		 $valorHoras=null;
+		 $valorMinutos=null;
+		 $fechaDeIngreso = $fechaDeIngreso['ingreso'];
 
-		return number_format(abs($cobro = $segundos * 3), 2); //valor del segundo $3
+
+		 $fechaING = new DateTime("$fechaDeIngreso");
+		 $fechaEgreso = new DateTime("$fechaEgreso");
+
+		 $diff = $fechaEgreso->diff($fechaING, true);
+
+		 $horasPasadas = $diff->format('%H');
+		 $minutosPasados = $diff->format('%i');
+
+
+
+		 if($horasPasadas >= 1)
+		 	$valorHoras = $horasPasadas * 150;
+		 if ($minutosPasados>=1) 
+		 {
+		 	$valorMinutos = $minutosPasados * 4;
+		 }
+
+		
+			return number_format($valorMinutos + $valorHoras, 2);
+
 	}
-
-
-
-
-
 }
 
 

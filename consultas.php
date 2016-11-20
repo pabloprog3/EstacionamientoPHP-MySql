@@ -125,9 +125,10 @@ class Consultas
 
 	public function insertarPatente($patente)
 	{
-		$fecha = date('d-m-Y H:i:u');
+		$fecha = date("Y-m-d H:i:s");
 		$PDO = new AccesoPDO();
 		$conexion = $PDO->getConexion();
+		$patente = strtoupper($patente);
 
 		$sql = "insert into autos (patente, ingreso) values (:patente, :fecha)";
 
@@ -163,7 +164,13 @@ class Consultas
 			$rows[] = $resultado;
 		}
 
-		return $rows;
+		//return $rows;
+		if(count($rows) >= 1)
+		{
+			return $rows;
+		}
+		else
+			return -1;
 	}
 
 
@@ -205,12 +212,25 @@ class Consultas
 	}
 
 
+	public static function traerPatente($patente)
+	{
+		$PDO = new AccesoPDO();
+		$conexion = $PDO->getConexion();
+		$sql = "select patente from autos where id_patente = :idPatente";
 
+		$statementPDO = $conexion->prepare($sql);
+		$statementPDO->bindParam(":idPatente", $patente);
+		$statementPDO->execute();
 
+		 $resultado = $statementPDO->fetch();
 
-
-
-
+		 if(count($resultado) >= 1)
+		{
+			return 1;
+		}
+		else
+			return -1;
+	}
 
 
 

@@ -2,6 +2,10 @@ $(document).ready(function () {
 	
 });
 
+function volverIndice () {
+	//alert('volver');
+	window.location = "index.php";
+}
 
 function CargarUsuario () {
 	$('#correo').val('testing1@hotmail.com');
@@ -42,7 +46,7 @@ function ingresar()
 					else{
 						$('#login').hide();
 						$('#perfil').load("formIngreso.php");
-						$('#btnEmp').prop("disabled", true);
+						//$('#formIngreso').('#btnEmp').remove();
 
 					};
 				}
@@ -57,7 +61,7 @@ function formAutos()
 {
 	var queHago = "autos";
 
-	$('#usuario').remove('div');
+	
 	
 	$.ajax({
 		type:"post",
@@ -75,8 +79,6 @@ function formAutos()
 function formEmp () 
 {
 	var queHago = "usuarios";
-
-	$('#ingresarAuto').remove('div');
 
 
 	$.ajax({
@@ -204,7 +206,8 @@ function ingresarAuto ()
 
 //	location.href = "insertarPatente.html";
 	$('#usuario').remove('div');	
-	$('#formularioInsertar').load('insertarPatente.html');		
+	$('#formularioInsertar').load('insertarPatente.html');
+	$('#patente').focus();		
 					
 
 }	
@@ -222,7 +225,7 @@ function sacarAuto (idpatente)
 				{
 					document.getElementById('cobro').style.display='block';	
 					$('#cobro').val('Monto a pagar: $' + resp);
-					$('#cobro').fadeOut(4500);
+					//$('#cobro').fadeOut(4500);
 					formAutos();					
 				}
 		});
@@ -234,15 +237,28 @@ function insertarPatente ()
 	var queHago = "insertarPatente";
 	var patente = $('#patente').val();
 
-	$.ajax({
-		type:"post",
-		url:"nexo.php",
-		data:{queHacer:queHago, patente:patente},	
-		success: function (resp) 
-				{
+	if (patente == "") 
+	{
+		//alert("No esta ingresando ninguna patente");
+		$('#patente').val('ERROR - INGRESE NUEVAMENTE LA PATENTE');
+	}
+	else
+	{
+
+		$.ajax({
+			type:"post",
+			url:"nexo.php",
+			data:{queHacer:queHago, patente:patente},	
+			success: function (resp) 
+					{
 					formAutos();
-					$('#ingresarAuto').remove('div');					
-				}
+					$('#ingresarAuto').remove('div');
+					if (resp == -1)
+							alert("La patente" + patente + " ya se encuentra en el Sistema");
+					}
+									
+					
 		});
+	}
 }
 
