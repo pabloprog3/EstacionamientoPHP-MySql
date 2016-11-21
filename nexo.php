@@ -26,7 +26,7 @@ switch ($queHago)
 					else
 					{
 
-						echo "<div class='table table-responsive'>
+						echo "<div class='table table-responsive table-hover'>
 						<table class='table table-striped table-bordered' align='center'>';
 
 							<tr>
@@ -91,22 +91,34 @@ switch ($queHago)
 	case 'usuarios':
 			$listaUsuarios = Consultas::cargarUsuarios();
 
-					echo "<table class='table table-responsive' align='center'>
+					echo "<table class='table table-responsive table-hover' align='center'>
 
 						<tr>
-							<td style='color:white' id='patenteTH' align='center'>Correo</th>
+							<td style='color:white' id='patenteTH' align='center'>Correo</td>
+							<td style='color:white' id='ingresoTH' align='center'>Clave</td>
 							<td style='color:white' id='ingresoTH' align='center'>Perfil</td>
 							<td align='center'><input type='button' class='btn btn-default form-control' id='alta' value='Ingresar Usuario' onClick='ingresarUsuario()'></td>
 						</tr>";
 
 						foreach ($listaUsuarios as $user) 
 						{
-							echo "<tr class='success'>";
-							echo "<td align='center'>".$user['correo']."</td>";
-							echo "<td align='center'>".$user['perfil']."</td>";
-							echo "<td><input type='button' value='BORRAR' onClick='sacarUsuario(".$user['id_usuario'].")' class='btn btn-success'></td>";
-							echo "<td><input type='button' value='MODIFICAR' onClick='modificarUsuario(".$user['id_usuario'].")' class='btn btn-warning'></td>";
-							echo "</tr>";							
+							if ($user['correo'] == 'admin1@hotmail.com' || $user['correo']=='user1@gmail.com') {
+								echo "<tr class='danger'>";
+								echo "<td align='center'>".$user['correo']."</td>";
+								echo "<td align='center'>".$user['clave']."</td>";
+								echo "<td align='center'>".$user['perfil']."</td>";
+								echo "<td></td>";
+								echo "<td></td>";
+								echo "</tr>";
+							}else{							
+								echo "<tr class='success'>";
+								echo "<td align='center'>".$user['correo']."</td>";
+								echo "<td align='center'>".$user['clave']."</td>";
+								echo "<td align='center'>".$user['perfil']."</td>";
+								echo "<td><input type='button' value='BORRAR' onClick='sacarUsuario(".$user['id_usuario'].")' class='btn btn-success'></td>";
+								echo "<td><input type='button' value='MODIFICAR' onClick='modificarUsuario(".$user['id_usuario'].")' class='btn btn-warning'></td>";
+								echo "</tr>";
+							}						
 						
 						}
 
@@ -142,7 +154,7 @@ switch ($queHago)
 
 		break;
 
-		case 'modificarBD':
+	case 'modificarBD':
 				
 				$id=$_POST['id'];
 				$correo=$_POST['correo'];
@@ -151,7 +163,7 @@ switch ($queHago)
 
 				Consultas::modificarUsuario($id, $correo, $clave, $perfil);
 
-			break;
+		break;
 
 
 

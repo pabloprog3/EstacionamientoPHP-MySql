@@ -26,6 +26,10 @@
 
 }
 
+.ocultar{
+	display: none;
+}
+
 #ingresoTH{
 	font-size: 20px;
 	font-style: oblique;

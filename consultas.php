@@ -75,7 +75,7 @@ class Consultas
 	}
 
 
-	public static function modificarUsuario($id, $usuario, $correo, $clave, $perfil)
+	public static function modificarUsuario($id, $correo, $clave, $perfil)
 	{	
 		$PDO = new AccesoPDO();
 		$conexion = $PDO->getConexion();
@@ -86,7 +86,7 @@ class Consultas
 		$statementPDO->bindParam(':correo', $correo);
 		$statementPDO->bindParam(':clave', $clave);
 		$statementPDO->bindParam(':perfil', $perfil);
-		$statementPDO->bindParam(':id', $idusuario);
+		$statementPDO->bindParam(':id', $id);
 
 		if (!$statementPDO) 
 		{

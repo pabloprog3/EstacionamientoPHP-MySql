@@ -1,3 +1,5 @@
+var id_usuario;
+
 $(document).ready(function () {
 	
 });
@@ -7,8 +9,8 @@ function volverIndice () {
 }
 
 function CargarUsuario () {
-	$('#correo').val('testing1@hotmail.com');
-	$('#clave').val('1234');
+	$('#correo').val('user1@gmail.com');
+	$('#clave').val('5555');
 	$('#mensajeError').html("");
 }
 
@@ -42,11 +44,20 @@ function ingresar()
 					if (resp == "admin") 
 					{
 						$('#login').hide();
-						$('#perfil').load("formIngreso.php");
+						$('#perfil').load("formIngresoAdmin.php");
+					}
+					if(resp == "usuario")
+					{
+						$('#login').hide();
+						$('#perfil').load("formIngresoUser.php");
+
 					}
 				}
 
 		});
+
+
+		//$('#btnEmp').remove('button');
 
 	}
 	 
@@ -148,6 +159,8 @@ function modificarUsuario(usuario)
 {
 	var queHago = "modificar";
 
+	id_usuario = usuario;
+
 	$.ajax({
 		type:"post",
 		url:"nexo.php",
@@ -158,23 +171,13 @@ function modificarUsuario(usuario)
 		},	
 		success: function (data) 
 				{	
-					//console.log(data);
+					
 					 $('#correoIngreso').val(data[0].correo);
 					 $('#pass').val(data[0].clave);
 
 					 $('#guardarUser').attr('value', 'Guardar Cambios');
-					 $('#guardarUser').attr('onClick', 'modificarBD(id)');
-					 
-					 
-					 //modificarBD(usuario);
-				
-					 //$("input[name='perfil']:checked").val(data[0].perfil);
-					 // var perfil = data[0].perfil;
-					 // document.getElementById(perfil).checked = true;
-
-					 //.val(data[0].perfil);
-					// $('#pass').val(usuario.clave);
-					// $("input[name='perfil']:checked").val(usuario.perfil);				
+					 $('#guardarUser').attr('onClick', 'modificarBD()');
+					 			
 				},
 
 			error: function (mensaje) {
@@ -183,8 +186,9 @@ function modificarUsuario(usuario)
 		});
 }
 
-function modificarBD(id)
+function modificarBD()
 {
+
 	var queHago = "modificarBD";
 	var correo = $('#correoIngreso').val();
   	var password = $('#pass').val();
@@ -193,7 +197,7 @@ function modificarBD(id)
 	$.ajax({
 		type:"post",
 		url:"nexo.php",
-		data:{queHacer:queHago, id:id, correo:correo, clave:password, perfil:perfil},
+		data:{queHacer:queHago, id:id_usuario, clave:password, correo:correo, perfil:perfil},
 
 		success: function () 
 				{	
@@ -206,6 +210,8 @@ function modificarBD(id)
 			}
 		});
 
+	$('#usuario').remove();	
+
 }
 
 
@@ -213,7 +219,7 @@ function ingresarAuto ()
 {
 	$('#usuario').remove('div');	
 	$('#formularioInsertar').load('insertarPatente.html');
-	$('#patente').focus();		
+ 	$('#patente').focus();	
 
 }	
 
@@ -230,10 +236,15 @@ function sacarAuto (idpatente)
 				{
 					document.getElementById('cobro').style.display='block';	
 					$('#cobro').val('Monto a pagar: $' + resp);
-					//$('#cobro').fadeOut(4500);
-					formAutos();					
+					$('#cobro').fadeOut(7500);
+					formAutos();
+					
+					var focalizar = $("#botonesADM").position().top;
+					$('html,body').animate({scrollTop: focalizar}, 400);					
 				}
 		});
+
+
 
 }
 
