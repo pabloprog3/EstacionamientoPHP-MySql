@@ -25,6 +25,10 @@
 </head>
 <body id='principal'>
 
+       <div id='git'>
+              <h2>GIT HUB: pabloprog3</h2>
+       </div>
+
 	<div id='login' style="width:300px">
 		<?php include 'login.php' ?>
 
@@ -37,8 +41,9 @@
 
 </body>
 
+<div class='container'>
 <footer id='footter'>
-	
+</div>	
 </footer>
 
-</html>		
+</html>			

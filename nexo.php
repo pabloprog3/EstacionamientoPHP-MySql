@@ -26,7 +26,7 @@ switch ($queHago)
 					else
 					{
 
-						echo "<div class='table table-responsive table-hover'>
+						echo "<br><br><div class='table table-responsive table-hover'>
 						<table class='table table-striped table-bordered' align='center'>';
 
 							<tr>

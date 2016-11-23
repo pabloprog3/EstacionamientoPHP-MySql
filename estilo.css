@@ -41,8 +41,9 @@
 #cobro{
 
 	background-color:#58FAD0;
+        vertical-align: top;
 	text-align: center;
-	font-size: 30px;
+	font-size: 20px;
 	display: none;
 }
 
@@ -83,7 +84,23 @@
 footer{
 
 	position: absolute;
-	padding-left: 1050px;
+	/*padding-left: 1050px;
 	vertical-align: bottom;
+        horizontal-align: left;*/
+        margin-left:0px; margin-right:auto;
+}
+
+
+#git{
+    color: #BB290B;
+    background-color: rgb(120, 300, 200);
+    border-style:dashed;
+    text-align:center;
+ 
+    height: 130px;
+    width: 180px;  
+    margin: 15px;
 
 }
+
+													

@@ -1,7 +1,6 @@
 var id_usuario;
 
 $(document).ready(function () {
-	
 });
 
 function volverIndice () {
@@ -174,6 +173,8 @@ function modificarUsuario(usuario)
 					
 					 $('#correoIngreso').val(data[0].correo);
 					 $('#pass').val(data[0].clave);
+                                         //$('#perfil').prop("checked", true);
+                                         //$("perfil").attr('checked', 'checked');
 
 					 $('#guardarUser').attr('value', 'Guardar Cambios');
 					 $('#guardarUser').attr('onClick', 'modificarBD()');
@@ -234,7 +235,7 @@ function sacarAuto (idpatente)
 		data:{queHacer:queHago, id:idpatente, egreso:egreso},	
 		success: function (resp) 
 				{
-					document.getElementById('cobro').style.display='block';	
+					document.getElementById('cobro').style.display='block';
 					$('#cobro').val('Monto a pagar: $' + resp);
 					$('#cobro').fadeOut(7500);
 					formAutos();
@@ -306,3 +307,4 @@ function verSiNumeros (patente)
 }	
 
 
+			

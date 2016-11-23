@@ -8,7 +8,10 @@ include 'consultas.php';
 		<br><br>
 		<input type="text"  class="text-success form-control" placeholder="Valor Del Estacionamiento" id="cobro" disabled hidden> 
 		
-	</div>
+	    <div id='cobro'>
+
+           </div>
+        </div>
 
 	<div id="botonSeleccionado">
 
@@ -24,3 +27,4 @@ include 'consultas.php';
 
 
 
+			
