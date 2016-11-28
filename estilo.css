@@ -1,6 +1,9 @@
 #principal{
 
 	background-image: url('Estacionamientos.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 	background-position: center;
 }
 
@@ -97,10 +100,16 @@ footer{
     border-style:dashed;
     text-align:center;
  
-    height: 130px;
-    width: 180px;  
+    height: 80px;
+    width: 900px;  
     margin: 15px;
 
+}
+
+#msg{
+    
+	color: black;
+	font-variant: small-caps;
 }
 
 													

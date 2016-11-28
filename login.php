@@ -1,19 +1,4 @@
-<?php
 
-// if (isset($_COOKIE['perfil'])) 
-// {
-// 	if ($_COOKIE['perfil'] = 'admin') 
-// 	{
-// 		include_once 'index.php';
-// 		echo "admin";
-// 	}
-// 	else
-// 		echo "usuario";
-// }
-
-
-
-?>
 
 
 <form method="post">

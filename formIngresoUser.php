@@ -1,6 +1,3 @@
-<?php
-include 'consultas.php';
-?>
 
 <div id="botonesADM" class='container'>
 		<input type="button" class="btn btn-warning btn-block" value="Administrar Autos" onClick="formAutos()" id='btnAut'>

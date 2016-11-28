@@ -1,18 +1,39 @@
 
-	<div id="usuario" class='container' style="width:200px"> 
+	<div id="usuario" class='container' style="width: 600px"> 
 
-		<input type='mail' class='form-control' placeholder='Ingrese Correo' id='correoIngreso'>
-		<br>
-		<input type='password' class='form-control' placeholder='Ingrese Password' id='pass'>
-		<br>
-		<label class='label label-primary'>Seleccione el perfil: </label><br>
-		<input type='radio' value='admin' name='perfil' id='admin'>Administrador
-		<br>
-		<input type='radio' value='usuario' name='perfil' id='testing'>Usuario
-		<br>
-		<input type='button' id='guardarUser' class='form-control btn btn-primary' value='Guardar Usuario' onClick='insertarUsuarios()'>
-		<br>
-		<br>
-		<input type='button' id='cancelarUser' class='form-control btn btn-default' value='Cancelar' onClick='cancelar()'>
+		<form class='form-group' method='post' enctype='multipart/form-data' id='formUsuario'>
+
+			<input type='mail' class='form-control' placeholder='Ingrese Correo' id='correoIngreso'/>
+			<br>
+			<input type='text' class='form-control' placeholder='Nombre Completo' id='nombre'>
+			<br>
+	
+			<input type='password' class='form-control' placeholder='Ingrese Password' id='pass'/>
+
+			<br>
+			<label for='Sueldo' class='label label-primary'>SUELDO</label>
+			<select class='form-control' id='selectSueldo'>
+
+				<option value='7000'>$7000</option>
+				<option value='9000'>$9000</option>
+				<option value='12000'>$12000</option>
+				<option value='15000'>$15000</option>
+				<option value='18000'>$18000</option>
+				<option value='22000'>$22000</option>
+				<option value='25000'>$25000</option>
+			</select>
+			<br>
+				<label class='label label-primary'>Seleccione el perfil: </label><br>
+			<input type='radio' value='admin' name='perfil' id='admini'/>Administrador
+			<br>
+			<input type='radio' value='usuario' name='perfil' id='testing'/>Usuario
+			<br><br>
+			<input type='file' name='foto' id='foto' value='Foto Empleado'/>
+			<br>
+			<input type='button' id='guardarUser' class='form-control btn btn-primary' value='Guardar Usuario' onClick='insertarUsuarios()'/>
+			<br>
+			<input type='button' id='cancelarUser' class='form-control btn btn-default' value='Cancelar' onClick='cancelar()'>
+		</form>
+
 
 	</div>

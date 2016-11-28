@@ -26,17 +26,22 @@ class Consultas
 	}
 
 
-	public static function insertarUsuarios($correo, $clave, $perfil)
+	public static function insertarUsuarios($correo, $clave, $perfil, $nombre, $sueldo)
 	{	
+		$foto=$nombre.".jpg";
+
 		$PDO = new AccesoPDO();
 		$conexion = $PDO->getConexion();
 
-		$sql = "insert into usuarios (correo, clave, perfil) values (:unCorreo, :unaClave, :unPerfil)";
+		$sql = "insert into usuarios (correo, clave, perfil, foto, nombre, sueldo) values (:unCorreo, :unaClave, :unPerfil, :unaFoto, :unNombre, :unSueldo)";
 
 		$statementPDO = $conexion->prepare($sql);
 		$statementPDO->bindParam(':unCorreo', $correo);
 		$statementPDO->bindParam(':unaClave', $clave);
 		$statementPDO->bindParam(':unPerfil', $perfil);
+		$statementPDO->bindParam(':unaFoto', $foto);
+		$statementPDO->bindParam(':unNombre', $nombre);
+		$statementPDO->bindParam(':unSueldo', $sueldo);
 
 		if (!$statementPDO) 
 		{
@@ -75,17 +80,22 @@ class Consultas
 	}
 
 
-	public static function modificarUsuario($id, $correo, $clave, $perfil)
+	public static function modificarUsuario($id, $correo, $clave, $perfil, $nombre, $sueldo)
 	{	
+		$foto=$nombre.".jpg";
+
 		$PDO = new AccesoPDO();
 		$conexion = $PDO->getConexion();
 
-		$sql = "update usuarios set correo=:correo, clave=:clave, perfil=:perfil where id_usuario=:id";
+		$sql = "update usuarios set correo=:correo, clave=:clave, perfil=:perfil, foto=:foto, nombre=:nombre, sueldo=:sueldo where id_usuario=:id";
 
 		$statementPDO = $conexion->prepare($sql);
 		$statementPDO->bindParam(':correo', $correo);
 		$statementPDO->bindParam(':clave', $clave);
 		$statementPDO->bindParam(':perfil', $perfil);
+		$statementPDO->bindParam(':foto', $foto);
+		$statementPDO->bindParam(':nombre', $nombre);
+		$statementPDO->bindParam(':sueldo', $sueldo);
 		$statementPDO->bindParam(':id', $id);
 
 		if (!$statementPDO) 
@@ -101,9 +111,16 @@ class Consultas
 	}
 
 
-
 	public static function sacarUsuario($id)
 	{
+		$user = array();
+
+		$user = Consultas::traerUsuario($id);
+
+		$path = "fotos/".$user['foto'];
+
+		unlink($path);
+
 		$PDO = new AccesoPDO();
 		$conexion = $PDO->getConexion();
 		$sql = "delete from usuarios where id_usuario = :id";
@@ -115,8 +132,9 @@ class Consultas
 			return "Se produjo un error al sacar la Patente. Avise a su Administrador";
 		}
 		else
-		{
+		{			
 			$statementPDO->execute();
+			
 		}
 	}
 

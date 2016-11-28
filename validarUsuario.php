@@ -1,13 +1,12 @@
 <?php
 
-include 'consultas.php';
-//include 'usuarios.php';
-
-//var_dump($_POST);	
-
-
-
 $usuario = $_POST["usuario"];
+$cookie = $_POST["sicookie"];
+
+
+include 'consultas.php';
+
+
 $clave = $_POST["clave"];
 $encontrado = 0;
 $perfil ="";
@@ -21,7 +20,11 @@ $perfil ="";
   {
  	if ($i["correo"] == $usuario && $i["clave"] == $clave) 
  	{
- 		setcookie('perfil', $i['perfil'], time() + 3600);
+ 		$nombre = $i['nombre'];
+
+ 		if(!(isset($COOKIE['nombre']) && $cookie=='n'))
+ 			setcookie('nombre', "$nombre", time()+3600);
+
  		$encontrado = 1;
  		$perfil=$i["perfil"];
  		break;
@@ -32,8 +35,8 @@ $perfil ="";
 
  if ($encontrado == 1) 
  {
- 	//var_dump($perfil);
- 	echo  "$perfil";
+ 	echo  "$perfil-$nombre";
+
  }
  else
  	echo "Usuario no encontrado";

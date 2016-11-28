@@ -4,7 +4,20 @@ $(document).ready(function () {
 });
 
 function volverIndice () {
-	window.location = "index.php";
+
+	$.ajax({
+		type:"post",
+		url:"nexo.php",
+		data:{queHacer:'deslogearse'},	
+		success: function (resp) 
+				{
+					$('#msg').html('Usuario deslogeado exitosamente. Se ha borrado la cookie');
+					window.location = "index.php";
+				}
+
+		});
+
+
 }
 
 function CargarUsuario () {
@@ -22,41 +35,56 @@ function CargarAdmin () {
 function ingresar() 
 {
 
+	var correo = $('#correo').val();
+	var pass = $('#clave').val();
+
 	if ( $('#correo').val() == "" || $('#clave').val() == "" ) 
 	{
-	 	$('#mensajeError').html('Falta completar 1 o más dato para ingresar al Sistema');
-	 }
+	 	$('#mensajeError').html('Correo o Contraseña incorrectos. Por favor, intente nuevamente');
+	}
+
 	 else
-	 {
+	{
 	 	var usuario = $('#correo').val();
 	 	var clave = $('#clave').val();
+	 	var sicookie='';
+
+	 	if ($('#recordarme').is(':checked'))
+	 		sicookie = 's';
+	 	else
+	 		sicookie = 'n';
 
 	 	$.ajax({
 		type:"post",
 		url:"validarUsuario.php",
-		data:{usuario:usuario, clave:clave},	
+		data:{usuario:usuario, clave:clave, sicookie:sicookie},	
 		success: function (resp) 
 				{
+					var respSeparada = resp.split('-');
+					var nombre = respSeparada[1];
+					var perfil = respSeparada[0];
 
 					$('#footter').html("<input type='button' class='btn btn-danger btn-block' value='Deslogearse' onClick='volverIndice()' id='deslogin'>");
 					
-					if (resp == "admin") 
+					if (perfil == "admin") 
 					{
 						$('#login').hide();
 						$('#perfil').load("formIngresoAdmin.php");
 					}
-					if(resp == "usuario")
+					if(perfil == "usuario")
 					{
 						$('#login').hide();
 						$('#perfil').load("formIngresoUser.php");
 
 					}
+
+					$('#msg').html("login: " + nombre);
+					$('#msg').append("         Perfil: " + perfil);
 				}
 
 		});
 
-
-		//$('#btnEmp').remove('button');
+		
 
 	}
 	 
@@ -110,23 +138,53 @@ function ingresarUsuario()
 
 function insertarUsuarios() 
 {
-
-
   var queHago = "insertarUsuarios";
+  
   var correo = $('#correoIngreso').val();
   var password = $('#pass').val();
   var perfil= $("input[name='perfil']:checked").val();
+  var nombre = $('#nombre').val();
+  var sueldo = $('#selectSueldo').val();
 
-	$.ajax({
-		type:"post",
-		url:"nexo.php",
-		data:{queHacer:queHago, correo:correo, password:password, perfil:perfil},	
-		success: function (resp) {
-			formEmp();
-			$('#usuario').remove();
-		}					
+  sueldo = parseInt(sueldo);
 
-		});
+  //var focalizar = $("#msg").position().top;
+  
+  if(validarCamposVacios() == -1)
+  	alert("No se han completado todos los campos requeridos");
+  else if(validCorreo(correo) == 0)
+ {
+	alert('No se ha ingresado un correo válido');
+ }
+ else if(validPassword(password) == -1)
+ {
+	alert('Se ha excedido la cantidad máxima de caracteres permitidos para la contraseña');
+ }
+ else if(validarSoloLetras(nombre) == -1)
+ {
+ 	alert('el nombre no puede contener numeros');
+ }
+ else if(validarRadioCheck() == false)
+ 	alert('Debe seleccionar un perfil para ingresar un nuevo usuario');
+
+ else
+	{
+  
+  	    enviarFoto(nombre);
+
+		$.ajax({
+			type:"post",
+			url:"nexo.php",
+			data:{queHacer:queHago, correo:correo, password:password, perfil:perfil, nombre:nombre, sueldo:sueldo},	
+			success: function (resp) {
+			
+				formEmp();
+			}					
+
+			});
+
+		cancelar();
+	}
 }
 
 
@@ -154,11 +212,17 @@ function cancelar()
 	$('#usuario').remove();
 }
 
+
+
 function modificarUsuario(usuario)
 {
 	var queHago = "modificar";
 
-	id_usuario = usuario;
+    id_usuario = usuario;
+
+
+    $('#formularioInsertar').load('insertarUsuarios.html');
+
 
 	$.ajax({
 		type:"post",
@@ -166,15 +230,29 @@ function modificarUsuario(usuario)
 		data:{queHacer:queHago, id:usuario},
 		dataType: "json",
 		beforeSend: function () {
-			$('#formularioInsertar').load('insertarUsuarios.html');
+			
+			                    	
 		},	
 		success: function (data) 
 				{	
-					
+					 					
 					 $('#correoIngreso').val(data[0].correo);
 					 $('#pass').val(data[0].clave);
-                                         //$('#perfil').prop("checked", true);
-                                         //$("perfil").attr('checked', 'checked');
+
+					 $('#nombre').val(data[0].nombre);
+					 $('#nombre').attr('disabled',true);
+
+					 $('#selectSueldo').val(data[0].sueldo);
+
+					 $('#foto').hide();
+
+					 if(data[0].perfil == 'usuario')
+					 	$('#testing').attr('checked', true);
+
+					 
+					 if(data[0].perfil == 'admin')
+					 	$('#admini').attr('checked', true);
+
 
 					 $('#guardarUser').attr('value', 'Guardar Cambios');
 					 $('#guardarUser').attr('onClick', 'modificarBD()');
@@ -182,36 +260,47 @@ function modificarUsuario(usuario)
 				},
 
 			error: function (mensaje) {
-				console.info(mensaje);
+				//alert(mensaje);
 			}
 		});
+
+
 }
 
 function modificarBD()
 {
-
 	var queHago = "modificarBD";
+
 	var correo = $('#correoIngreso').val();
-  	var password = $('#pass').val();
-  	var perfil= $("input[name='perfil']:checked").val();
+	var password = $('#pass').val();
+	var perfil= $("input[name='perfil']:checked").val();
+  	var nombre=$('#nombre').val();
+  	var sueldo=$('#selectSueldo').val();
+
+  	//enviarFoto(nombre);
+  
 
 	$.ajax({
 		type:"post",
 		url:"nexo.php",
-		data:{queHacer:queHago, id:id_usuario, clave:password, correo:correo, perfil:perfil},
+		data:{queHacer:queHago, id:id_usuario, clave:password, correo:correo, perfil:perfil, nombre:nombre, sueldo:sueldo},
+		
+		beforeSend: function () {
+			enviarFoto(nombre);
+		},
 
 		success: function () 
 				{	
 					formEmp();
-					$('#usuario').remove();		
 				},
 
-			error: function (mensaje) {
-				console.info(mensaje);
+		error: function (mensaje) {
+				alert(mensaje);
 			}
+
 		});
 
-	$('#usuario').remove();	
+
 
 }
 
@@ -305,6 +394,123 @@ function verSiNumeros (patente)
    }
    return 0;
 }	
+
+
+function enviarFoto (nombre) 
+{
+	var foto=$('#foto').val();
+	
+	var archivo = $("#foto")[0];
+
+
+	var formData = new FormData();
+	formData.append("foto",archivo.files[0]);
+	formData.append("queHacer", "subirFoto");
+	formData.append("nombre", nombre);
+
+	$.ajax({
+        type: 'post',
+        url: 'nexo.php',
+        dataType: "json",
+		cache: false,
+		contentType: false,
+		processData: false,
+        data: formData,
+        async: true,
+
+		success: function (objJson) {
+
+		 return;
+		}
+	});
+
+}
+
+
+
+
+/*      VALIDACIONES   DE LOS CAMPOS        */
+
+
+function validCorreo (correo) 
+{
+	//valida correo correcto
+	var indice = correo.indexOf('@');
+
+	if(indice == -1)
+		return 0;
+	else
+		return 1;
+}
+
+function validPassword (pass) {
+
+	//valida la longitud de password no mayor a 10 caracteres
+	if (pass.length >= 10) 
+	{
+		return -1;
+	}
+}
+
+function validarCamposVacios () 
+{
+	//valida que se ingresen datos en todos los textbox
+
+	var bandera=1;
+
+	 $("#formUsuario").find(':input').each(function() {
+         var elemento= this;
+         if (elemento.value == "") 
+         {
+         	bandera=-1;
+         }
+    
+        });
+
+	          return bandera;
+}
+
+
+function validarSoloLetras (nombre) 
+{
+
+	//valida que el textbox nombre no se haya ingresado algun numero
+
+	var arrayNombre = nombre.split('');
+	var flag=1;
+
+	for (var i = 0; i <= nombre.length - 1; i++) 
+	{
+		if(!isNaN(arrayNombre[i]))
+			return -1;
+	}
+
+	if (flag == 1) 
+	{
+		return 1;
+	}
+}
+
+function validarRadioCheck ()
+{
+	//valida que este seleccionado algun perfil
+	opciones = document.getElementsByName("perfil");
+
+	var seleccionado = false;
+	for(var i=0; i<opciones.length; i++) 
+	{    
+  		if(opciones[i].checked) 
+  		{
+   			seleccionado = true;
+    		break;
+  		}
+	}
+ 
+	if(!seleccionado) {
+  		return false;
+	}
+}
+
 
 
 			

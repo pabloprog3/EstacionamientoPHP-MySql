@@ -1,16 +1,8 @@
 <?php
 
 include 'consultas.php';
+include 'usuarios.php';
 include 'patentes.php';
-
-	// $perfil = $_POST['perfil'];
-
-	// 			if(!isset($_COOKIE['perfil']))
-	// 			{
-	//  					 setcookie('perfil', $perfil);					
-
-	// 			}
-
 
 $queHago=$_POST['queHacer'];
 
@@ -91,14 +83,20 @@ switch ($queHago)
 	case 'usuarios':
 			$listaUsuarios = Consultas::cargarUsuarios();
 
-					echo "<table class='table table-responsive table-hover' align='center'>
+					echo "<table class='table table-responsive' align='center'>
 
 						<tr>
 							<td style='color:white' id='patenteTH' align='center'>Correo</td>
 							<td style='color:white' id='ingresoTH' align='center'>Clave</td>
 							<td style='color:white' id='ingresoTH' align='center'>Perfil</td>
-							<td align='center'><input type='button' class='btn btn-default form-control' id='alta' value='Ingresar Usuario' onClick='ingresarUsuario()'></td>
-						</tr>";
+							<td style='color:white' id='ingresoTH' align='center'>Foto</td>
+							<td style='color:white' id='ingresoTH' align='center'>Nombre</td>
+							<td style='color:white' id='ingresoTH' align='center'>Sueldo</td>
+							<td align='center'><input type='button' class='btn btn-default form-control' id='alta' value='Ingresar Usuario' onClick='ingresarUsuario()'><span class='glyphicon glyphicon-user' style='color:white'></td>";
+
+					echo "<td style='color:white'></td>";
+
+					echo "</tr>";
 
 						foreach ($listaUsuarios as $user) 
 						{
@@ -109,14 +107,25 @@ switch ($queHago)
 								echo "<td align='center'>".$user['perfil']."</td>";
 								echo "<td></td>";
 								echo "<td></td>";
+								echo "<td></td>";
+								echo "<td></td>";
+								echo "<td></td>";
 								echo "</tr>";
-							}else{							
+							}else{
+								$imagenActual = $user['foto'];							
 								echo "<tr class='success'>";
 								echo "<td align='center'>".$user['correo']."</td>";
 								echo "<td align='center'>".$user['clave']."</td>";
 								echo "<td align='center'>".$user['perfil']."</td>";
-								echo "<td><input type='button' value='BORRAR' onClick='sacarUsuario(".$user['id_usuario'].")' class='btn btn-success'></td>";
-								echo "<td><input type='button' value='MODIFICAR' onClick='modificarUsuario(".$user['id_usuario'].")' class='btn btn-warning'></td>";
+
+								echo "<td align='center'>";
+								echo "<img class='img-thumbnail' width='80px' height='80px' src='fotos/$imagenActual'></img>";
+								echo "</td>";
+
+								echo "<td align='center'>".$user['nombre']."</td>";
+								echo "<td align='center'>".$user['sueldo']."</td>";
+								echo "<td><input type='button' value='BORRAR' onClick='sacarUsuario(".$user['id_usuario'].")' class='btn btn-success'><span class='glyphicon glyphicon-trash'> </td>";
+								echo "<td><input type='button' value='MODIFICAR' onClick='modificarUsuario(".$user['id_usuario'].")' class='btn btn-warning'><span class='glyphicon glyphicon-cog'></td>";
 								echo "</tr>";
 							}						
 						
@@ -130,16 +139,20 @@ switch ($queHago)
 				$correo=$_POST['correo'];
 				$clave=$_POST['password'];
 				$perfil=$_POST['perfil'];
+				$nombre=$_POST['nombre'];
+				$sueldo=$_POST['sueldo'];
 
 
-			    Consultas::insertarUsuarios($correo, $clave, $perfil);
+			    Consultas::insertarUsuarios($correo, $clave, $perfil, $nombre, $sueldo);
 
 		break;
 
 	
 	case 'sacarUsuario':
 			$id=$_POST['id'];
-			Consultas::sacarUsuario($id);
+			$user=Consultas::sacarUsuario($id);
+			//$path = $user['foto'];
+			//unlink("./fotos/".$path);
 
 		break;
 
@@ -155,13 +168,36 @@ switch ($queHago)
 		break;
 
 	case 'modificarBD':
-				
+
 				$id=$_POST['id'];
 				$correo=$_POST['correo'];
 				$clave=$_POST['clave'];
 				$perfil=$_POST['perfil'];
+				$nombre=$_POST['nombre'];
+				$sueldo=$_POST['sueldo'];
 
-				Consultas::modificarUsuario($id, $correo, $clave, $perfil);
+				Consultas::modificarUsuario($id, $correo, $clave, $perfil, $nombre, $sueldo);
+
+		break;
+
+
+
+	case 'subirFoto':
+
+			$nameFoto=$_POST["nombre"];
+			$res = Usuario::Subir($nameFoto);
+
+			echo  json_encode($res);
+
+
+		break;
+
+	case 'deslogearse':
+
+			if (isset($_COOKIE['nombre'])) 
+			{
+				setcookie('nombre', '', time()-10000);
+			}
 
 		break;
 
