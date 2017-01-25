@@ -1,8 +1,8 @@
 <?php
 
-include 'consultas.php';
-include 'usuarios.php';
-include 'patentes.php';
+include 'modelo/consultas.php';
+include 'vista/usuarios.php';
+include 'vista/patentes.php';
 
 $queHago=$_POST['queHacer'];
 
@@ -50,8 +50,6 @@ switch ($queHago)
 			 $patente = $_POST['id'];
 			 $fechaIngreso = Consultas::traerFecha($patente);
 
-			// var_dump($fechaIngreso);
-
 			 if (Patente::CalcularMonto($fechaIngreso) == -1)
 			 {
 			 	echo "No ha pasado más de un minuto desde que ingreso el auto";
@@ -70,14 +68,14 @@ switch ($queHago)
 				$patente = $_POST['patente'];
 
 				if(Consultas::verificarPatente($patente) == 1)
-				{
+				{					
 					return -1;
 				}
 				else{
 						Consultas::insertarPatente($patente);
+			
 					}
 
-				//return $retorno;
 
 
 	case 'usuarios':
@@ -105,9 +103,13 @@ switch ($queHago)
 								echo "<td align='center'>".$user['correo']."</td>";
 								echo "<td align='center'>".$user['clave']."</td>";
 								echo "<td align='center'>".$user['perfil']."</td>";
-								echo "<td></td>";
-								echo "<td></td>";
-								echo "<td></td>";
+               
+                                                                echo "<td align='center'>";
+								echo "<img class='img-thumbnail' width=60px height=60px src='fotos/'".$user['foto']."</img>"; //$imagenActual'></img>";
+								echo "</td>";
+								
+                                                                echo "<td align='center'>".$user['nombre']."</td>";
+								echo "<td align='center'>".$user['sueldo']."</td>";
 								echo "<td></td>";
 								echo "<td></td>";
 								echo "</tr>";
@@ -119,7 +121,7 @@ switch ($queHago)
 								echo "<td align='center'>".$user['perfil']."</td>";
 
 								echo "<td align='center'>";
-								echo "<img class='img-thumbnail' width='80px' height='80px' src='fotos/$imagenActual'></img>";
+								echo "<img class='img-thumbnail' width=60px height=60px src='fotos/$imagenActual'></img>";
 								echo "</td>";
 
 								echo "<td align='center'>".$user['nombre']."</td>";
@@ -135,7 +137,6 @@ switch ($queHago)
 			break;
 
 	case 'insertarUsuarios':
-				//var_dump($_POST);
 				$correo=$_POST['correo'];
 				$clave=$_POST['password'];
 				$perfil=$_POST['perfil'];
@@ -151,8 +152,6 @@ switch ($queHago)
 	case 'sacarUsuario':
 			$id=$_POST['id'];
 			$user=Consultas::sacarUsuario($id);
-			//$path = $user['foto'];
-			//unlink("./fotos/".$path);
 
 		break;
 
@@ -160,7 +159,7 @@ switch ($queHago)
 	case 'modificar':
 				$id=$_POST['id'];
 				$dato = Consultas::traerUsuario($id);
-				//var_dump($dato);
+
 				$objJson=json_encode($dato);
 
 				echo $objJson;

@@ -1,6 +1,6 @@
 <?php
 
-include 'Conexion.php';
+include 'modelo/Conexion.php';
 
 class Consultas
 {
@@ -182,7 +182,6 @@ class Consultas
 			$rows[] = $resultado;
 		}
 
-		//return $rows;
 		if(count($rows) >= 1)
 		{
 			return $rows;
@@ -194,8 +193,6 @@ class Consultas
 
 	public static function sacarPatente($patente)
 	{
-		//$fechaEgreso = time();
-
 		$PDO = new AccesoPDO();
 		$conexion = $PDO->getConexion();
 		$sql = "delete from autos where id_patente = :patente";

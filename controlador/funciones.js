@@ -11,7 +11,7 @@ function volverIndice () {
 		data:{queHacer:'deslogearse'},	
 		success: function (resp) 
 				{
-					$('#msg').html('Usuario deslogeado exitosamente. Se ha borrado la cookie');
+					$('#msg').html('Usuario deslogeado exitosamente.');
 					window.location = "index.php";
 				}
 
@@ -63,23 +63,29 @@ function ingresar()
 					var respSeparada = resp.split('-');
 					var nombre = respSeparada[1];
 					var perfil = respSeparada[0];
+                                        var foto = respSeparada[2];
 
 					$('#footter').html("<input type='button' class='btn btn-danger btn-block' value='Deslogearse' onClick='volverIndice()' id='deslogin'>");
 					
 					if (perfil == "admin") 
 					{
 						$('#login').hide();
-						$('#perfil').load("formIngresoAdmin.php");
+						$('#perfil').load("vista/formIngresoAdmin.php");
+         
+                                                  
+                                                
 					}
 					if(perfil == "usuario")
 					{
 						$('#login').hide();
-						$('#perfil').load("formIngresoUser.php");
+						$('#perfil').load("vista/formIngresoUser.php");
 
 					}
 
-					$('#msg').html("login: " + nombre);
+					$('#msg').html("login: " + nombre + "       ");
 					$('#msg').append("         Perfil: " + perfil);
+                                        $('#msg').append("         <img width=45px height=45px hspace=150px id='fotoPerfil'>");
+                                        $('#fotoPerfil').attr('src',"fotos/" + foto);  
 				}
 
 		});
@@ -131,7 +137,7 @@ function formEmp ()
 
 function ingresarUsuario()
 {
-	$('#formularioInsertar').load('insertarUsuarios.html');		
+	$('#formularioInsertar').load('vista/insertarUsuarios.html');		
 		
 
 }
@@ -148,7 +154,6 @@ function insertarUsuarios()
 
   sueldo = parseInt(sueldo);
 
-  //var focalizar = $("#msg").position().top;
   
   if(validarCamposVacios() == -1)
   	alert("No se han completado todos los campos requeridos");
@@ -179,6 +184,7 @@ function insertarUsuarios()
 			success: function (resp) {
 			
 				formEmp();
+$('#usuario').remove();
 			}					
 
 			});
@@ -197,8 +203,7 @@ function sacarUsuario(idusuario)
 		url:"nexo.php",
 		data:{queHacer:queHago, id:idusuario},	
 		success: function (resp) 
-				{	
-					//$('#usuario').remove('div');				
+				{			
 					formEmp	();
 										
 				}
@@ -221,7 +226,7 @@ function modificarUsuario(usuario)
     id_usuario = usuario;
 
 
-    $('#formularioInsertar').load('insertarUsuarios.html');
+    $('#formularioInsertar').load('vista/insertarUsuarios.html');
 
 
 	$.ajax({
@@ -231,10 +236,11 @@ function modificarUsuario(usuario)
 		dataType: "json",
 		beforeSend: function () {
 			
-			                    	
+			  $('#formularioInsertar').show('vista/insertarUsuarios.html');              	
 		},	
 		success: function (data) 
 				{	
+
 					 					
 					 $('#correoIngreso').val(data[0].correo);
 					 $('#pass').val(data[0].clave);
@@ -260,7 +266,7 @@ function modificarUsuario(usuario)
 				},
 
 			error: function (mensaje) {
-				//alert(mensaje);
+				
 			}
 		});
 
@@ -277,8 +283,8 @@ function modificarBD()
   	var nombre=$('#nombre').val();
   	var sueldo=$('#selectSueldo').val();
 
-  	//enviarFoto(nombre);
-  
+	$("#formularioInsertar").hide();
+  	   
 
 	$.ajax({
 		type:"post",
@@ -286,12 +292,13 @@ function modificarBD()
 		data:{queHacer:queHago, id:id_usuario, clave:password, correo:correo, perfil:perfil, nombre:nombre, sueldo:sueldo},
 		
 		beforeSend: function () {
-			enviarFoto(nombre);
+			//enviarFoto(nombre);
 		},
 
 		success: function () 
 				{	
-					formEmp();
+					
+					formEmp();                                     
 				},
 
 		error: function (mensaje) {
@@ -308,7 +315,7 @@ function modificarBD()
 function ingresarAuto () 
 {
 	$('#usuario').remove('div');	
-	$('#formularioInsertar').load('insertarPatente.html');
+	$('#formularioInsertar').load('vista/insertarPatente.html');
  	$('#patente').focus();	
 
 }	
@@ -356,7 +363,7 @@ function insertarPatente ()
 		var primerosTesCaracteres=patente.substring(0, 3); //el caracter 3 queda excluido
 		var ultimosTresCaracteres=patente.substring(4);
 
-		if(verSiNumeros(patente) != 1)//typeof(primerosTesCaracteres) != 'string' || typeof(ultimosTresCaracteres) != 'number')
+		if(verSiNumeros(patente) != 1)
 		{
 			$('#patente').val('ERROR - INGRESE NUEVAMENTE LA PATENTE CON EL FORMATO XXX(X=letra)-YYY(Y=numero)');
 			$('#patente').on('click', function () {$(this).val("");});
@@ -369,10 +376,10 @@ function insertarPatente ()
 				data:{queHacer:queHago, patente:patente},	
 				success: function (resp) 
 						{
-						formAutos();
-						$('#ingresarAuto').remove();	
-						if (resp == -1)
-							alert("La patente" + patente + " ya se encuentra en el Sistema");
+							formAutos();
+							$('#ingresarAuto').remove();	
+							if (resp == -1)
+								alert("La patente" + patente + " ya se encuentra en el Sistema");
 						}
 									
 					
@@ -476,19 +483,14 @@ function validarSoloLetras (nombre)
 
 	//valida que el textbox nombre no se haya ingresado algun numero
 
-	var arrayNombre = nombre.split('');
-	var flag=1;
+	var arrayNombre = nombre.split(' ');
 
-	for (var i = 0; i <= nombre.length - 1; i++) 
-	{
-		if(!isNaN(arrayNombre[i]))
-			return -1;
-	}
+        if(!(isNaN(arrayNombre[0]) || isNaN(arrayNombre[1])))
+               return -1;
+        else
+               return 1;
 
-	if (flag == 1) 
-	{
-		return 1;
-	}
+
 }
 
 function validarRadioCheck ()
@@ -513,4 +515,4 @@ function validarRadioCheck ()
 
 
 
-			
+											

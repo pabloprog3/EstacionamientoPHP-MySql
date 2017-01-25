@@ -4,14 +4,12 @@ $usuario = $_POST["usuario"];
 $cookie = $_POST["sicookie"];
 
 
-include 'consultas.php';
+include 'modelo/consultas.php';
 
 
 $clave = $_POST["clave"];
 $encontrado = 0;
 $perfil ="";
-
-
 
  $consulta = Consultas::cargarUsuarios();
 
@@ -21,6 +19,7 @@ $perfil ="";
  	if ($i["correo"] == $usuario && $i["clave"] == $clave) 
  	{
  		$nombre = $i['nombre'];
+                $foto = $i['foto'];
 
  		if(!(isset($COOKIE['nombre']) && $cookie=='n'))
  			setcookie('nombre', "$nombre", time()+3600);
@@ -35,7 +34,7 @@ $perfil ="";
 
  if ($encontrado == 1) 
  {
- 	echo  "$perfil-$nombre";
+ 	echo  "$perfil-$nombre-$foto";
 
  }
  else

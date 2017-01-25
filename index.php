@@ -3,7 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 
-	<link rel="stylesheet" type="text/css" href="estilo.css">
+	<link rel="stylesheet" type="text/css" href="css/estilo.css">
+        <link rel="icon" type="image/png" href="fotos/icono.png" />
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
@@ -13,7 +14,7 @@
 
 
 
-	<script type="text/javascript" src="funciones.js"></script>
+	<script type="text/javascript" src="controlador/funciones.js"></script>
 	
 
 	<title>
@@ -36,7 +37,7 @@
        </div>
 
 	<div id='login' style="width:300px">
-		<?php include 'login.php' ?>
+		<?php include 'vista/login.php' ?>
 
 	</div>
 
@@ -52,4 +53,4 @@
 </div>	
 </footer>
 
-</html>			
+</html>					
